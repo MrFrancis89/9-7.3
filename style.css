@@ -1283,7 +1283,7 @@ body.theme-arctic .lf-produto-card, body.light-mode .lf-produto-card { backgroun
 }
 .lf-footer-item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .lf-footer-label { font-size: 10px; color: var(--text-soft); text-transform: uppercase; font-weight: 600; letter-spacing: 0.4px; }
-.lf-footer-number { font-size: 1.05rem; color: var(--accent-primary); font-weight: 700; }
+.lf-footer-number { font-size: 1.05rem; font-weight: 700; /* cor definida por .lf-footer-item:nth-child abaixo */ }
 .lf-version-link { text-align: center; margin-top: 6px; font-size: 11px; color: var(--text-muted); text-decoration: underline; cursor: pointer; padding: 8px; touch-action: manipulation; }
 
 /* ============================================================================
@@ -1740,6 +1740,58 @@ body.light-mode   .lf-qtd-input { background: var(--surface-2); }
 .lf-gauge-num-value.saldo-ok  { color: var(--gauge-green); }
 .lf-gauge-num-value.saldo-mid { color: var(--gauge-yellow); }
 .lf-gauge-num-value.saldo-bad { color: var(--gauge-red); }
+
+/* ── Cores semânticas por métrica ────────────────────────────────────────────
+   Orçado  → azul  (plano, referência neutra)
+   Gasto   → âmbar (movimento de dinheiro, alerta suave)
+   Saldo   → verde/vermelho dinâmico (resultado — já tratado por saldo-ok/bad)
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Gauge — input de orçamento editável */
+#lf-budgetInlineInput {
+  color: var(--accent-primary) !important;
+  font-weight: 700 !important;
+}
+
+/* Gauge — Gasto */
+#lf-gaugeGasto {
+  color: var(--btn-star);  /* âmbar — #FF9F0A dark / #C07000 arctic */
+}
+
+/* Gauge — Saldo: default verde enquanto positivo (classe JS sobrescreve) */
+#lf-gaugeSaldo {
+  color: var(--gauge-green);
+}
+
+/* Footer — Orçado */
+#lf-footerBudget {
+  color: var(--accent-primary);
+}
+
+/* Footer — Gasto */
+#lf-footerGasto {
+  color: var(--btn-star);
+}
+
+/* Footer — Saldo: default verde; classe dinâmica sobrescreve */
+#lf-footerSaldo {
+  color: var(--gauge-green);
+  font-weight: 700;
+}
+#lf-footerSaldo.saldo-ok  { color: var(--gauge-green);  }
+#lf-footerSaldo.saldo-bad { color: var(--gauge-red);    }
+
+/* Footer — labels com cor vinculada ao número */
+.lf-footer-number { font-size: 1.05rem; font-weight: 700; }
+/* sobrescreve o color genérico anterior (era accent-primary para todos) */
+.lf-footer-item:nth-child(1) .lf-footer-number { color: var(--accent-primary); }
+.lf-footer-item:nth-child(2) .lf-footer-number { color: var(--btn-star);       }
+.lf-footer-item:nth-child(3) .lf-footer-number { color: var(--gauge-green);    }
+
+/* Labels também ganham subtom da cor do número (mais fraco) */
+.lf-footer-item:nth-child(1) .lf-footer-label { color: color-mix(in srgb, var(--accent-primary) 55%, var(--text-soft)); }
+.lf-footer-item:nth-child(2) .lf-footer-label { color: color-mix(in srgb, var(--btn-star)       55%, var(--text-soft)); }
+.lf-footer-item:nth-child(3) .lf-footer-label { color: color-mix(in srgb, var(--gauge-green)    55%, var(--text-soft)); }
 #lf-budgetInlineInput {
   background: transparent; border: none; border-bottom: 1px dashed var(--border);
   color: var(--text); font-size: 13px; font-weight: 600; text-align: center;
