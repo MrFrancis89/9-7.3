@@ -498,7 +498,10 @@ function atualizarGauge() {
     const fSaldo  = document.getElementById('lf-footerSaldo');
     if (fBudget) fBudget.textContent = fmtMoeda(lfOrcamento);
     if (fGasto)  fGasto.textContent  = fmtMoeda(gasto);
-    if (fSaldo)  fSaldo.textContent  = (s < 0 ? '-' : '') + fmtMoeda(Math.abs(s));
+    if (fSaldo) {
+        fSaldo.textContent = (s < 0 ? '-' : '') + fmtMoeda(Math.abs(s));
+        fSaldo.className   = 'lf-footer-number ' + (s >= 0 ? 'saldo-ok' : 'saldo-bad');
+    }
     const lgGasto = document.getElementById('lf-totalGastoDisplay');
     const lgDif   = document.getElementById('lf-diferencaDisplay');
     if (lgGasto) lgGasto.textContent = fmtMoeda(gasto);
