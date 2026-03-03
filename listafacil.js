@@ -451,7 +451,12 @@ function avaliarExpr(expr) {
         }
         return l;
     }
-    return parseExpr();
+    const result = parseExpr();
+    // BUG FIX #3: guard idêntico ao de calculadora.js — garante que toda a
+    // expressão foi consumida. Sem isso, "2+3abc" retorna 5 silenciosamente
+    // em vez de exibir "Erro" ao usuário.
+    if (pos !== src.length) throw new Error('Expressão inválida');
+    return result;
 }
 
 // ── Orçamento / Gauge ─────────────────────────────────────────────
