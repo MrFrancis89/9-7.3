@@ -34,7 +34,7 @@ import { produtosPadrao } from './produtos.js';
 import appStore from './store.js';
 
 // ── Versão ─────────────────────────────────────────────────────────────────────
-const VERSAO_ATUAL = '9.7.1';
+const VERSAO_ATUAL = '9.7.3';
 
 // ── Temas ──────────────────────────────────────────────────────────────────────
 const TEMAS = ['escuro', 'midnight', 'arctic', 'forest'];
@@ -123,7 +123,12 @@ function iniciarLupa() {
         }
     }, { passive: true });
 
-    lupa.addEventListener('touchend', () => {
+    lupa.addEventListener('touchend', (e) => {
+        // BUG FIX #2: preventDefault suprime o click sintético (~300ms) que o
+        // browser gera após touchend — sem isso, toggleBusca dispara duas vezes
+        // (touchend → abre; click → fecha imediatamente), fazendo a lupa parecer
+        // inoperante no mobile.
+        e.preventDefault();
         if (!touchMoved) {
             toggleBusca();
         } else {
